@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBSE Result 2026 — Shiksha Vibhag | Rajasthan Board Result</title>
+<link rel="icon" href="https://rankguruji.com/assets/img/rbse.png" type="image/png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --saffron: #E8521A;
+  --saffron-dark: #c23e0f;
+  --saffron-light: #ff6b35;
+  --navy: #0A1628;
+  --navy-mid: #112040;
+  --navy-light: #1A3060;
+  --gold: #F5A623;
+  --gold-light: #FFD166;
+  --white-green: #138808;
+  --cream: #FFF9F0;
+  --off-white: #F5F0E8;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+  --border: #E2D9CC;
+  --success: #1B6B3A;
+  --danger: #991B1B;
+  --blue: #1D4ED8;
+  --shadow-sm: 0 2px 8px rgba(10,22,40,0.08);
+  --shadow-md: 0 4px 20px rgba(10,22,40,0.12);
+  --shadow-lg: 0 8px 40px rgba(10,22,40,0.18);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--off-white);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+  
+/* ── NAVBAR (UPDATED FOR LEFT ALIGNMENT & COMPACT SIZE) ── */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 65px; /* Thoda chota height fit hone ke liye */
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-bottom: 3px solid var(--saffron);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 1000;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.3);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px; /* Hamburger aur Logo ke beech ka gap kam kiya */
+}
+
+.hamburger-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  width: 36px; height: 36px; /* Perfect square size */
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Icon aur Text ke beech balance gap */
+  flex: none; /* Isse text center mein nahi jayega, left hi rahega */
+}
+
+.brand-icon {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(232,82,26,0.3);
+  flex-shrink: 0;
+}
+
+.brand-text { line-height: 1.1; }
+
+.brand-name {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.2rem; /* Size chota kiya image jaisa fit karne ke liye */
+  font-weight: 700;
+  color: var(--gold); /* "Shiksha" Gold color */
+  letter-spacing: 0.3px;
+}
+
+.brand-name span { color: #fff; } /* "Vibhag" White color */
+
+.brand-sub {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.7); /* Thoda faded white */
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.tricolor-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto; /* Isse tricolor hamesha kone mein rahega */
+  flex-shrink: 0;
+}
+
+.tricolor-bar .tc { width: 4px; height: 24px; border-radius: 2px; }
+.tc-saffron { background: #FF9933; }
+.tc-white  { background: #fff; }
+.tc-green  { background: #138808; }
+
+/* Mobile View adjustments */
+@media (max-width: 576px) {
+  .tricolor-bar { display: none; } /* Mobile par tricolor hat jayega taaki logo ko jagah mile */
+  .brand-wrap { justify-content: flex-start; }
+}
+  
+/* ── DRAWER ── */
+.drawer-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1200;
+}
+.drawer-overlay.open { display: block; }
+
+.app-drawer {
+  position: fixed; top: 0; left: 0;
+  height: 100vh; width: 280px;
+  background: #fff;
+  z-index: 1300;
+  transform: translateX(-100%);
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column;
+  box-shadow: 4px 0 30px rgba(0,0,0,0.2);
+}
+.app-drawer.open { transform: translateX(0); }
+
+.drawer-head {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  border-bottom: 3px solid var(--saffron);
+  padding: 0 1.25rem;
+  height: 70px;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.drawer-head .dh-name {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.2rem; font-weight: 800; color: #fff;
+}
+.drawer-head .dh-name span { color: var(--gold); }
+.drawer-head .dh-sub { font-size: 0.6rem; color: var(--gold-light); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+.drawer-close {
+  margin-left: auto;
+  background: rgba(255,255,255,0.15);
+  border: none; color: #fff;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.drawer-close:hover { background: rgba(255,255,255,0.3); }
+
+.drawer-nav { flex: 1; overflow-y: auto; padding: 0.5rem 0; }
+.drawer-sec-label {
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.75rem 1.25rem 0.3rem;
+}
+.drawer-link {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.7rem 1.25rem;
+  text-decoration: none;
+  color: var(--text-dark);
+  font-size: 0.88rem; font-weight: 500;
+  border-radius: 0 24px 24px 0;
+  margin-right: 0.75rem;
+  transition: background 0.15s, color 0.15s;
+}
+.drawer-link:hover, .drawer-link.active {
+  background: rgba(232,82,26,0.08);
+  color: var(--saffron);
+}
+.drawer-link i { width: 20px; text-align: center; color: var(--saffron); font-size: 0.95rem; flex-shrink: 0; }
+.drawer-divider { height: 1px; background: var(--border); margin: 0.5rem 1.25rem; }
+
+/* ── MAIN ── */
+.main-wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+  flex: 1;
+  width: 100%;
+}
+
+/* ── HERO BANNER ── */
+.hero-banner {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #1e3a5f 100%);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.hero-banner::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 300px; height: 100%;
+  background: radial-gradient(circle at 80% 50%, rgba(245,166,35,0.1) 0%, transparent 70%);
+}
+.hero-banner::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), #138808);
+}
+.hero-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.6rem; font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+.hero-title span { color: var(--gold); }
+.hero-sub { font-size: 0.82rem; color: var(--gold-light); margin-top: 0.3rem; letter-spacing: 0.5px; }
+.hero-badges { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+.hero-badge {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* ── SEARCH CARD ── */
+.search-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.search-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+}
+
+.card-title-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.card-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.4rem; font-weight: 700;
+  color: var(--navy);
+}
+.badge-rbse {
+  font-size: 0.62rem; font-weight: 700;
+  background: var(--saffron); color: #fff;
+  padding: 3px 8px; border-radius: 5px;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.card-subtitle { font-size: 0.83rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+.form-label {
+  font-size: 0.73rem; font-weight: 700;
+  color: var(--navy); text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 0.4rem;
+  display: block;
+}
+.form-select, .form-control {
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  padding: 0.55rem 0.85rem;
+  background: var(--cream);
+  color: var(--text-dark);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+}
+.form-select:focus, .form-control:focus {
+  border-color: var(--saffron);
+  box-shadow: 0 0 0 3px rgba(232,82,26,0.12);
+  background: #fff;
+  outline: none;
+}
+
+/* Stream select group tags styling */
+optgroup { font-weight: 700; }
+
+.btn-fetch {
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
+  color: #fff; border: none;
+  border-radius: 10px;
+  padding: 0.65rem 1.5rem;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.5px;
+  width: 100%;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(232,82,26,0.35);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  cursor: pointer;
+}
+.btn-fetch:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(232,82,26,0.45);
+  background: linear-gradient(135deg, var(--saffron-light), var(--saffron));
+}
+.btn-fetch:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-student {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  box-shadow: 0 4px 14px rgba(10,22,40,0.3) !important;
+}
+.btn-student:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--navy-light), var(--navy)) !important;
+  box-shadow: 0 6px 20px rgba(10,22,40,0.4) !important;
+}
+
+/* Stream selector tabs */
+.stream-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.stream-tab {
+  padding: 0.3rem 0.8rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.75rem; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--cream);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.stream-tab:hover { border-color: var(--saffron); color: var(--saffron); }
+.stream-tab.active {
+  background: var(--saffron); color: #fff;
+  border-color: var(--saffron);
+  box-shadow: 0 2px 8px rgba(232,82,26,0.3);
+}
+.stream-tab.arts.active    { background: #7C3AED; border-color: #7C3AED; box-shadow: 0 2px 8px rgba(124,58,237,0.3); }
+.stream-tab.science.active { background: #0369A1; border-color: #0369A1; box-shadow: 0 2px 8px rgba(3,105,161,0.3); }
+.stream-tab.commerce.active{ background: #065F46; border-color: #065F46; box-shadow: 0 2px 8px rgba(6,95,70,0.3); }
+
+/* ── PREV RESULTS ── */
+#prevSection {
+  background: #fff; border-radius: 12px;
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.prev-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--navy);
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.prev-title i { color: var(--saffron); }
+.prev-table { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
+.prev-table th {
+  padding: 5px 10px;
+  font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-muted);
+  border-bottom: 1px solid var(--border); font-weight: 600; text-align: left;
+}
+.prev-table td { padding: 7px 10px; border-bottom: 1px solid #ede8df; color: var(--text-dark); }
+.prev-table tr:last-child td { border-bottom: none; }
+.btn-recheck {
+  background: var(--navy); color: #fff;
+  border: none; border-radius: 6px;
+  padding: 3px 10px; font-size: 0.73rem; font-weight: 600;
+  cursor: pointer; transition: background 0.2s;
+}
+.btn-recheck:hover { background: var(--saffron); }
+
+/* ── LOADING ── */
+.loading-box {
+  display: none;
+  flex-direction: column; align-items: center; justify-content: center;
+  padding: 3rem;
+  background: #fff; border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1.5rem;
+}
+.spinner {
+  width: 48px; height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--saffron);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem; font-weight: 500; }
+.loading-sub { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ── RESULT SECTION ── */
+.school-banner {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  color: #fff;
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+.school-banner::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), #138808);
+}
+.school-banner .sname {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.3rem; font-weight: 800;
+  color: #fff; line-height: 1.2;
+}
+.school-banner .smeta { font-size: 0.8rem; color: var(--gold-light); margin-top: 0.2rem; }
+.meta-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.meta-pill {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px; padding: 3px 12px;
+  font-size: 0.75rem; color: #fff;
+}
+.meta-pill i { color: var(--gold); margin-right: 4px; }
+
+/* ── TOOLBAR ── */
+.toolbar {
+  display: flex; align-items: center; gap: 0.5rem;
+  flex-wrap: wrap; margin-bottom: 1rem;
+}
+.btn-tool {
+  border: 1.5px solid; border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.78rem; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.15s; background: #fff;
+}
+.btn-print  { border-color: var(--navy); color: var(--navy); }
+.btn-print:hover  { background: var(--navy); color: #fff; }
+.btn-pdf    { border-color: var(--danger); color: var(--danger); }
+.btn-pdf:hover    { background: var(--danger); color: #fff; }
+.btn-csv    { border-color: var(--success); color: var(--success); }
+.btn-csv:hover    { background: var(--success); color: #fff; }
+.btn-excel  { border-color: #1D6F42; color: #1D6F42; }
+.btn-excel:hover  { background: #1D6F42; color: #fff; }
+#resultsCount { margin-left: auto; font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+#resultsCount strong { color: var(--navy); }
+
+/* Group filter */
+.group-filter { margin-bottom: 1rem; }
+.group-filter .form-select { max-width: 260px; }
+
+/* ── TABLE ── */
+.table-card {
+  background: #fff; border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.25rem;
+}
+.table-scroll { max-height: 520px; overflow-x: auto; overflow-y: auto; }
+.data-table {
+  width: 100%; min-width: fit-content;
+  border-collapse: separate; border-spacing: 0;
+  font-size: 0.78rem;
+}
+.data-table thead th {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--navy); color: #fff;
+  padding: 9px 11px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.73rem; font-weight: 600;
+  letter-spacing: 0.3px; text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer; user-select: none;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  transition: background 0.15s;
+}
+.data-table thead th:hover { background: var(--navy-light); }
+.data-table thead th .si {
+  margin-left: 4px; opacity: 0.4; font-size: 0.68rem;
+}
+.data-table thead th.sa .si.fa-sort-up,
+.data-table thead th.sd .si.fa-sort-down { opacity: 1; color: var(--gold); }
+.data-table tbody tr { transition: background 0.1s; }
+.data-table tbody tr:nth-child(even) { background: var(--cream); }
+.data-table tbody tr:hover { background: rgba(232,82,26,0.05) !important; }
+.data-table td {
+  padding: 6px 11px;
+  border-bottom: 1px solid #EDE8DF;
+  white-space: nowrap;
+  color: var(--text-dark);
+}
+.data-table td:first-child { color: var(--text-muted); font-size: 0.72rem; }
+
+.roll-link {
+  color: var(--saffron); cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+.roll-link:hover { text-decoration: underline; }
+
+/* Result badges */
+.rb { display: inline-block; padding: 2px 5px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; background: transparent !important; }
+.rb-1st   { color: #166534; }
+.rb-2nd   { color: #1E40AF; }
+.rb-3rd   { color: #92400E; }
+.rb-pass  { color: #581C87; }
+.rb-supp  { color: #C2410C; }
+.rb-fail  { color: #991B1B; }
+.rb-abs   { color: #44403C; }
+
+/* ── SUMMARY PANEL ── */
+.summary-panel {
+  background: #fff; border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.25rem;
+}
+.panel-head {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 0.65rem 1.2rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.panel-head h6 {
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  color: #fff; margin: 0;
+}
+.panel-head i { color: var(--gold); }
+.sum-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.sum-table th {
+  background: var(--cream); padding: 7px 10px;
+  font-weight: 700; font-size: 0.7rem;
+  text-transform: uppercase; letter-spacing: 0.4px;
+  color: var(--navy); border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.sum-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #EDE8DF;
+  text-align: center; color: var(--text-dark);
+}
+.sum-table td:first-child { text-align: left; font-weight: 500; }
+.sum-table tbody tr:last-child td { border-bottom: none; }
+.topper-rank-1 td:first-child::before { content: '🥇 '; }
+.topper-rank-2 td:first-child::before { content: '🥈 '; }
+.topper-rank-3 td:first-child::before { content: '🥉 '; }
+
+/* ── MARKSHEET OVERLAY ── */
+.ms-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 2000;
+  align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.ms-overlay.open { display: flex; }
+.ms-card {
+  background: #fff; border-radius: 14px;
+  width: 100%; max-width: 520px;
+  max-height: 92vh; overflow-y: auto;
+  box-shadow: 0 12px 50px rgba(0,0,0,0.35);
+}
+.ms-head {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  border-bottom: 3px solid var(--saffron);
+  padding: 10px 14px 9px;
+  text-align: center; position: relative;
+}
+.ms-head .ms-board { font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold-light); }
+.ms-head .ms-school { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800; color: #fff; line-height: 1.2; margin-top: 2px; }
+.ms-head .ms-class  { font-size: 0.75rem; color: var(--gold-light); margin-top: 3px; }
+.ms-close-btn {
+  position: absolute; top: 8px; right: 10px;
+  background: rgba(255,255,255,0.15); border: none;
+  color: #fff; width: 26px; height: 26px;
+  border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.ms-close-btn:hover { background: rgba(255,255,255,0.3); }
+
+.ms-body { padding: 10px 14px; }
+.ms-info-grid {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 3px 12px;
+  background: var(--cream); border-radius: 8px;
+  padding: 8px 12px; margin-bottom: 10px;
+  font-size: 0.82rem;
+}
+.ms-lbl { color: var(--text-muted); font-weight: 600; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
+.ms-val { color: var(--text-dark); font-weight: 500; }
+.ms-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-bottom: 8px; }
+.ms-table thead th { background: var(--navy); color: #fff; padding: 5px 9px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; text-align: center; }
+.ms-table thead th:first-child { text-align: left; }
+.ms-table tbody td { padding: 4px 9px; border-bottom: 1px solid #EDE8DF; text-align: center; }
+.ms-table tbody td:first-child { text-align: left; font-weight: 500; }
+.ms-table tbody tr:nth-child(even) { background: var(--cream); }
+.ms-table tfoot td { padding: 5px 9px; font-weight: 700; background: var(--navy); color: #fff; text-align: center; }
+.ms-table tfoot td:first-child { text-align: left; }
+
+.ms-stat-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.5rem;
+  padding: 8px 12px; border-radius: 8px;
+  background: var(--cream); border: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.ms-stat { text-align: center; flex: 1; }
+.ms-stat-val { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; color: var(--navy); line-height: 1; }
+.ms-stat-lbl { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.ms-divider { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
+
+.ms-footer { text-align: center; padding: 6px 14px 8px; font-size: 0.68rem; color: var(--text-muted); border-top: 1px solid var(--border); }
+
+.ms-action-row {
+  display: flex; gap: 0.5rem;
+  width: 100%; max-width: 340px; margin-top: 0.4rem;
+}
+.ms-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.85rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  flex: 1;
+}
+.ms-btn-close {
+  background: rgba(255,255,255,0.15);
+  color: #fff; border: 1.5px solid rgba(255,255,255,0.5);
+}
+.ms-btn-close:hover { background: rgba(255,255,255,0.28); }
+.ms-btn-dl {
+  background: #fff; color: var(--navy);
+  border: 1.5px solid #fff;
+}
+.ms-btn-dl:hover { background: var(--saffron); border-color: var(--saffron); color: #fff; }
+.ms-btn-dl:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Error */
+#errorBox {
+  border-radius: 10px; font-size: 0.85rem;
+  border: 1.5px solid #fca5a5;
+  background: #fef2f2; color: #991B1B;
+  padding: 0.85rem 1rem; margin-bottom: 1rem;
+  display: none;
+}
+
+/* ── FOOTER ── */
+footer {
+  margin-top: auto;
+  background: var(--navy);
+  color: rgba(255,255,255,0.6);
+  padding: 0;
+}
+.footer-top {
+  border-top: 3px solid;
+  border-image: linear-gradient(90deg, #FF9933, #fff, #138808) 1;
+  padding: 1.5rem 1.5rem 1rem;
+  display: flex; flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+  max-width: 1140px; margin: 0 auto;
+}
+.footer-brand .fb-name {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.2rem; font-weight: 800; color: #fff;
+}
+.footer-brand .fb-name span { color: var(--gold); }
+.footer-brand p { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem; max-width: 220px; line-height: 1.5; }
+
+.footer-col h4 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold-light); margin-bottom: 0.6rem; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col ul li { margin-bottom: 0.35rem; }
+.footer-col ul li a { font-size: 0.78rem; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.15s; }
+.footer-col ul li a:hover { color: var(--gold); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+}
+.footer-bottom a { color: var(--gold-light); text-decoration: none; }
+.footer-bottom .tricolor-inline { display: inline-flex; gap: 3px; align-items: center; margin-right: 6px; }
+.footer-bottom .tc-i { width: 8px; height: 3px; border-radius: 1px; }
+
+/* ── SETTINGS SIDE PANEL ── */
+.side-panel {
+  position: fixed; top: 0; right: 0;
+  height: 100vh; width: 0;
+  background: #fff;
+  z-index: 1050;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  padding-top: 70px;
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+}
+.side-panel.open { width: 290px; }
+.side-close {
+  position: absolute; top: 74px; right: 16px;
+  background: var(--cream); border: 1px solid var(--border);
+  color: var(--text-dark); width: 30px; height: 30px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 0.9rem; z-index: 2; text-decoration: none;
+}
+.side-content { padding: 1rem 1.25rem; min-width: 290px; }
+.side-sec-title {
+  font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-muted); margin: 1rem 0 0.5rem;
+}
+.form-check { margin-bottom: 0.45rem; }
+.form-check-label { font-size: 0.82rem; color: var(--text-dark); }
+.form-check-input:checked { background-color: var(--saffron); border-color: var(--saffron); }
+.btn-side {
+  width: 100%; border-radius: 8px;
+  font-size: 0.8rem; font-weight: 600;
+  padding: 0.45rem;
+  margin-top: 0.5rem;
+  border: 1.5px solid var(--border);
+  background: var(--cream); color: var(--text-dark);
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+}
+.btn-side:hover { border-color: var(--saffron); color: var(--saffron); background: #fff; }
+
+/* Print */
+.watermark {
+  display: none;
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%,-50%) rotate(-45deg);
+  font-family: 'Baloo 2', cursive;
+  font-size: 3rem;
+  color: rgba(10,22,40,0.05);
+  z-index: -1; pointer-events: none; white-space: nowrap;
+}
+
+@media print {
+  .ms-overlay, #rollForm, .toolbar, .side-panel, #errorBox,
+  .navbar, #prevSection, .search-card, .group-filter, footer, .hero-banner { display: none !important; }
+  body { padding-top: 0 !important; background: #fff !important; }
+  .main-wrap { max-width: none !important; padding: 0 !important; }
+  .school-banner { border-radius: 0 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .table-scroll, .table-card { max-height: none !important; overflow: visible !important; border: none !important; }
+  .data-table { font-size: 7pt !important; }
+  .data-table th, .data-table td { padding: 2px 4px !important; white-space: normal !important; }
+  .data-table thead th { position: static !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .table-card { box-shadow: none !important; border-radius: 0 !important; }
+  .watermark { display: block !important; }
+  footer { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .search-card { padding: 1.25rem; }
+  .btn-tool { font-size: 0.72rem; padding: 0.35rem 0.65rem; }
+  .hero-title { font-size: 1.25rem; }
+  .footer-top { flex-direction: column; gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <button class="hamburger-btn" id="openDrawerBtn" title="Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="brand-wrap">
+      <div class="brand-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name"><span>Shiksha</span> Vibhag</div>
+        <div class="brand-sub">Rajasthan Board Result</div>
+      </div>
+    </div>
+    <div class="tricolor-bar">
+      <div class="tc tc-saffron"></div>
+      <div class="tc tc-white"></div>
+      <div class="tc tc-green"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="app-drawer" id="appDrawer">
+  <div class="drawer-head">
+    <div class="brand-icon" style="width:34px;height:34px;font-size:0.9rem;">
+      <i class="fas fa-graduation-cap"></i>
+    </div>
+    <div>
+      <div class="dh-name"><span>Shiksha</span> Vibhag</div>
+      <div class="dh-sub">Rajasthan Board</div>
+    </div>
+    <button class="drawer-close" id="closeDrawerBtn"><i class="fas fa-times"></i></button>
+  </div>
+  
+  <nav class="drawer-nav">
+    <div class="drawer-sec-label">Settings</div>
+    <a href="javascript:void(0)" class="drawer-link" onclick="openSettings()">
+      <i class="fas fa-sliders-h"></i> Column & Display Settings
+    </a>
+  </nav>
+</aside>
+  
+
+<!-- SETTINGS SIDE PANEL -->
+<aside class="side-panel" id="sidePanel">
+  <a href="javascript:void(0)" class="side-close" id="closeSideBtn"><i class="fas fa-times"></i></a>
+  <div class="side-content">
+    <div class="side-sec-title">Column Visibility</div>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="incPersonal" checked>
+      <label class="form-check-label" for="incPersonal">Include Personal Details</label>
+    </div>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="showMother">
+      <label class="form-check-label" for="showMother">Show Mother's Name</label>
+    </div>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="hideEmptyCols" checked>
+      <label class="form-check-label" for="hideEmptyCols">Hide Empty Subject Columns</label>
+    </div>
+    <div class="side-sec-title">Display</div>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="showPdfBtn" checked>
+      <label class="form-check-label" for="showPdfBtn">Show Download PDF Button</label>
+    </div>
+    <div class="side-sec-title">Data</div>
+    <button class="btn-side" id="clearPrevBtn"><i class="fas fa-history"></i> Clear Previous Searches</button>
+    <button class="btn-side" id="clearCacheBtn"><i class="fas fa-trash"></i> Clear Cached Results</button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrap">
+
+  <!-- HERO -->
+  <div class="hero-banner">
+    <div class="hero-title">RBSE <span>Board Result</span> 2026</div>
+    <div class="hero-sub">Rajasthan Board of Secondary Education — School Wise & Individual Result</div>
+    <div class="hero-badges">
+      <span class="hero-badge"><i class="fas fa-check-circle" style="margin-right:4px;color:#4ade80;"></i>Live Data</span>
+      <span class="hero-badge">Class 10th &amp; 12th</span>
+      <span class="hero-badge">Arts · Science · Commerce</span>
+      <span class="hero-badge">All Subjects Marks</span>
+    </div>
+  </div>
+
+  <!-- SEARCH CARD -->
+  <div class="search-card">
+    <div class="card-title-row">
+      <div class="card-title">Result Search</div>
+      <span class="badge-rbse">RBSE</span>
+    </div>
+    <div class="card-subtitle">Roll number se apne school ke sabhi students ka result dekhein — subjects aur marks ke saath</div>
+    
+    <form id="rollForm">
+      <div class="row g-3">
+        <div class="col-sm-6 col-lg-3">
+          <label class="form-label">Board</label>
+          <select class="form-select" id="boardSel">
+            <option value="rj">Rajasthan (RBSE)</option>
+          </select>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <label class="form-label">Year</label>
+          <select class="form-select" id="yearSel"></select>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <label class="form-label">Class</label>
+          <select class="form-select" id="classSel" onchange="handleClassChange()">
+            <option value="12">12th</option>
+          </select>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <label class="form-label">Roll Number</label>
+          <input type="number" class="form-control" id="rollInput" placeholder="e.g. 2503146" required>
+        </div>
+      </div>
+
+      <!-- Stream Selection for 12th -->
+      <div id="streamSection" style="margin-top:1rem;">
+        <label class="form-label">Stream</label>
+        <div class="stream-tabs">
+          <div class="stream-tab active" data-stream="all" onclick="selectStream(this)">
+            <i class="fas fa-th-large" style="margin-right:4px;"></i>All Streams 
+          </div>
+          <div class="stream-tab arts" data-stream="arts" onclick="selectStream(this)">
+            <i class="fas fa-palette" style="margin-right:4px;"></i>Arts
+          </div>
+          <div class="stream-tab science" data-stream="science" onclick="selectStream(this)">
+            <i class="fas fa-flask" style="margin-right:4px;"></i>Science
+          </div>
+          <div class="stream-tab commerce" data-stream="commerce" onclick="selectStream(this)">
+            <i class="fas fa-chart-line" style="margin-right:4px;"></i>Commerce
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button type="button" class="btn-fetch btn-student" id="fetchStudentBtn" style="width: 100%;">
+          <i class="fas fa-user-graduate"></i> Check Result
+        </button>
+      </div>
+    </form>
+  </div>
+  
+
+  <!-- PREV RESULTS -->
+  <div id="prevSection" style="display:none;">
+    <div class="prev-title"><i class="fas fa-clock-rotate-left"></i> Pehle Check Kiye Gaye Schools</div>
+    <div class="table-responsive">
+      <table class="prev-table">
+        <thead><tr><th>School Name</th><th>Class</th><th>Year</th><th></th></tr></thead>
+        <tbody id="prevBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div id="errorBox"></div>
+
+  <!-- LOADING -->
+  <div class="loading-box" id="loadingBox">
+    <div class="spinner"></div>
+    <p class="loading-text">Please Wait Fetching Results</p>
+    <p class="loading-sub" id="loadingInfo"></p>
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <div id="resultSection" style="display:none;">
+    
+    <div class="school-banner" id="schoolBanner" style="display:none;">
+      <div>
+        <div class="sname" id="schoolNameEl"></div>
+        <div class="smeta">Class: <span id="classEl"></span> &nbsp;|&nbsp; Year: <span id="yearEl"></span> <span id="streamTagEl"></span></div>
+      </div>
+      <div class="meta-pills" id="metaPillsEl"></div>
+    </div>
+
+    <div class="toolbar" id="toolbarEl" style="display:none;">
+      <button class="btn-tool btn-print" id="printBtn"><i class="fas fa-print"></i> Print</button>
+      <button class="btn-tool btn-pdf" id="pdfBtn"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button class="btn-tool btn-csv" id="csvBtn"><i class="fas fa-file-csv"></i> CSV</button>
+      <button class="btn-tool btn-excel" id="excelBtn"><i class="fas fa-file-excel"></i> Excel</button>
+      <span id="resultsCount"></span>
+    </div>
+
+    <div class="group-filter" id="groupFilterSection" style="display:none;">
+      <label class="form-label">Group</label>
+      <select class="form-select" id="groupFilter" style="max-width:280px;">
+        <option value="All">All Groups</option>
+      </select>
+    </div>
+
+    <div class="table-card">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr id="tableHeadRow">
+            <th data-col="srno">S.No. <i class="fas fa-sort si"></i></th>
+            <th data-col="rollno">Roll No. <i class="fas fa-sort si"></i></th>
+            <th data-col="name">Name <i class="fas fa-sort si"></i></th>
+            <th data-col="fname">Father's Name <i class="fas fa-sort si"></i></th>
+            <th data-col="mname">Mother's Name <i class="fas fa-sort si"></i></th>
+            <th data-col="group" style="display:none;">Group <i class="fas fa-sort si"></i></th>
+          </tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-panel" id="summaryCard" style="display:none;">
+      <div class="panel-head"><i class="fas fa-chart-bar"></i><h6>Result Summary</h6></div>
+      <div class="table-responsive">
+        <table class="sum-table">
+          <thead id="sumHead"></thead>
+          <tbody id="sumBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Subject Summary -->
+    <div class="summary-panel" id="subjCard" style="display:none;">
+      <div class="panel-head"><i class="fas fa-book-open"></i><h6>Subject-wise Result Summary</h6></div>
+      <div class="table-responsive">
+        <table class="sum-table">
+          <thead id="subjHead"></thead>
+          <tbody id="subjBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Toppers -->
+    <div class="summary-panel" id="topperCard" style="display:none;">
+      <div class="panel-head"><i class="fas fa-trophy"></i><h6>Class Toppers</h6></div>
+      <div class="table-responsive">
+        <table class="sum-table">
+          <thead><tr>
+            <th>Rank</th><th>Roll No.</th><th>Name</th>
+            <th>Father's Name</th><th>Total Marks</th><th>Percentage</th>
+          </tr></thead>
+          <tbody id="topperBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /resultSection -->
+</div><!-- /main-wrap -->
+
+<!-- WATERMARK -->
+<div class="watermark">ShikshaVibhag.in</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="fb-name"><span>Shiksha</span> Vibhag</div>
+      <p>Rajasthan Board of Secondary Education result portal. Access 10th and 12th board results here.</p>
+    </div>
+    
+    <div class="footer-col">
+      <h4>About & Support</h4>
+      <ul>
+        <li><a href="https://t.me/ShikshaVibhag">About Shiksha Vibhag</a></li>
+        <li><a href="https://t.me/ShikshaVibhag">Telegram Channel</a></li>
+        <li><a href="https://t.me/Kapilchoyal">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="tricolor-inline">
+      <span class="tc-i" style="background:#FF9933;"></span>
+      <span class="tc-i" style="background:#fff;"></span>
+      <span class="tc-i" style="background:#138808;"></span>
+    </span>
+    &copy; 2026 <strong style="color:rgba(255,255,255,0.7)">Shiksha Vibhag</strong> &nbsp;|&nbsp;
+    Rajasthan Board Result Portal &nbsp;|&nbsp;
+    Data Source: RBSE OFFICIAL API
+  </div>
+</footer>
+  
+<!-- MARKSHEET OVERLAY -->
+<div class="ms-overlay" id="msOverlay">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;max-height:96vh;">
+    <div class="ms-card" id="msCard"></div>
+    <div class="ms-action-row">
+      <button class="ms-btn ms-btn-close" id="msCloseBtnOuter">
+        <i class="fas fa-times"></i> Close 
+      </button>
+      <button class="ms-btn ms-btn-dl" id="msDlBtn">
+        <i class="fas fa-image"></i> Download
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  
+const API_RESULT = "http://103.25.175.203:5000/api/result";
+const CACHE_PFX   = 'sv_res_';
+const PREV_KEY    = 'sv_prev_searches';
+const LAST_ROLL   = 'sv_last_roll';
+const PASS_MARK   = 33;
+const DIST_MARK   = 75;
+
+let targetSchool = '', final_result = {}, allSubjHeaders = new Set(), allGroups = new Set();
+let selClassText = '', selYear = '', buffer = '';
+let sortCol = 'rollno', sortDir = 'asc', filterGroup = 'All';
+let currentStream = 'all';
+let currentStudentData = null;
+
+// ── INIT ──
+(function init() {
+  const ys = document.getElementById('yearSel');
+  ['2026'].forEach(y => {
+    const o = document.createElement('option'); o.value=y; o.textContent=y;
+    ys.appendChild(o);
+  });
+  ys.value = '2026';
+  
+  const lr = localStorage.getItem(LAST_ROLL);
+  if (lr) document.getElementById('rollInput').value = lr;
+  
+  loadSettings();
+  renderPrev();
+  handleClassChange();
+})();
+
+function handleClassChange() {
+  const cls = document.getElementById('classSel').value;
+  document.getElementById('streamSection').style.display = cls === '12' ? 'block' : 'none';
+}
+
+function setClass(cls) {
+  document.getElementById('classSel').value = cls;
+  handleClassChange();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function selectStream(el) {
+  document.querySelectorAll('.stream-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentStream = el.dataset.stream;
+  if (Object.keys(final_result).length > 0) {
+    filterGroup = 'All';
+    document.getElementById('groupFilter').value = 'All';
+    renderTable(); genSummary(); genSubjSummary(); genToppers(); applyStreamFilter();
+  }
+}
+
+function selectStreamByName(name) {
+  const tab = document.querySelector(`.stream-tab[data-stream="${name}"]`);
+  if (tab) { selectStream(tab); window.scrollTo({top: 0, behavior: 'smooth'}); }
+}
+
+function applyStreamFilter() {
+  // stream filter is applied in getFilteredStudents
+}
+
+// ── NAVIGATION ──
+function openDrawer()  { document.getElementById('appDrawer').classList.add('open'); document.getElementById('drawerOverlay').classList.add('open'); }
+function closeDrawer() { document.getElementById('appDrawer').classList.remove('open'); document.getElementById('drawerOverlay').classList.remove('open'); }
+function openSettings(){ closeDrawer(); setTimeout(()=> document.getElementById('sidePanel').classList.add('open'), 280); }
+window.openDrawer = openDrawer; window.closeDrawer = closeDrawer; window.openSettings = openSettings;
+
+document.getElementById('openDrawerBtn').addEventListener('click', openDrawer);
+document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
+document.getElementById('drawerOverlay').addEventListener('click', closeDrawer);
+document.getElementById('closeSideBtn').addEventListener('click', ()=> document.getElementById('sidePanel').classList.remove('open'));
+
+// ── SETTINGS ──
+function saveSettings() {
+  ['incPersonal','showMother','hideEmptyCols','showPdfBtn'].forEach(k => {
+    localStorage.setItem('sv_'+k, document.getElementById(k).checked);
+  });
+}
+function loadSettings() {
+  ['incPersonal','showMother','hideEmptyCols','showPdfBtn'].forEach(k => {
+    const v = localStorage.getItem('sv_'+k);
+    if (v !== null) document.getElementById(k).checked = v === 'true';
+  });
+  updatePdfBtn();
+}
+function updatePdfBtn() {
+  document.getElementById('pdfBtn').style.display = document.getElementById('showPdfBtn').checked ? 'inline-flex' : 'none';
+}
+['incPersonal','showMother','hideEmptyCols'].forEach(id => {
+  document.getElementById(id).addEventListener('change', ()=>{ saveSettings(); renderTable(); genSubjSummary(); genToppers(); });
+});
+document.getElementById('showPdfBtn').addEventListener('change', ()=>{ saveSettings(); updatePdfBtn(); });
+
+// ── CLEAR ──
+document.getElementById('clearCacheBtn').addEventListener('click', ()=>{
+  if (!confirm('Sabhi cached results delete karein?')) return;
+  for (let i=localStorage.length-1;i>=0;i--){ const k=localStorage.key(i); if(k&&k.startsWith(CACHE_PFX)) localStorage.removeItem(k); }
+  localStorage.removeItem(LAST_ROLL);
+  alert('Cache cleared!'); resetUI();
+});
+document.getElementById('clearPrevBtn').addEventListener('click', ()=>{
+  if (!confirm('Previous searches clear karein?')) return;
+  localStorage.removeItem(PREV_KEY);
+  renderPrev();
+  document.getElementById('prevSection').style.display='none';
+  alert('Cleared!');
+});
+
+// ── EXPORTS ──
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  const prev = document.title;
+  document.title = `${selClassText} Result - ${targetSchool} - ShikshaVibhag`;
+  window.print();
+  document.title = prev;
+});
+document.getElementById('pdfBtn').addEventListener('click', generatePdf);
+document.getElementById('csvBtn').addEventListener('click', exportCSV);
+document.getElementById('excelBtn').addEventListener('click', exportExcel);
+
+// ── GROUP FILTER ──
+document.getElementById('groupFilter').addEventListener('change', e => {
+  filterGroup = e.target.value;
+  renderTable(); genSummary(); genSubjSummary(); genToppers();
+});
+
+// ── FETCH RESULT ──
+async function doFetchResult() {
+  const roll = parseInt(document.getElementById('rollInput').value, 10);
+  if (isNaN(roll)) { showError('Valid roll number enter karein.'); return; }
+  localStorage.setItem(LAST_ROLL, roll);
+  selYear = document.getElementById('yearSel').value;
+  selClassText = document.getElementById('classSel').options[document.getElementById('classSel').selectedIndex].textContent.split(' ')[0] + 'th';
+  resetUI();
+  document.getElementById('prevSection').style.display = 'none';
+  showLoading(true);
+  document.getElementById('loadingInfo').textContent = `Roll No. ${roll} ka result aa raha hai…`;
+  try {
+    const res = await fetch(API_RESULT, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ board: document.getElementById('boardSel').value, year: selYear, std: document.getElementById('classSel').value, roll_no: roll })
+    });
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch(e) { throw new Error('Server se invalid response.'); }
+    showLoading(false);
+    if (!data || !data.ROLL_NO) { showError('Is roll number ka result nahi mila.'); return; }
+    showMarksheet(data);
+  } catch(err) {
+    showError('Result fetch failed: ' + err.message);
+    showLoading(false);
+  }
+}
+document.getElementById('rollForm').addEventListener('submit', e => { e.preventDefault(); doFetchResult(); });
+document.getElementById('fetchStudentBtn').addEventListener('click', doFetchResult);
+
+// ── STREAM FETCH ──
+
+// ── STATE ──
+function resetUI() {
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('toolbarEl').style.display = 'none';
+  document.getElementById('summaryCard').style.display = 'none';
+  document.getElementById('subjCard').style.display = 'none';
+  document.getElementById('topperCard').style.display = 'none';
+  document.getElementById('tableBody').innerHTML = '';
+  targetSchool=''; selClassText=''; selYear='';
+  document.getElementById('schoolBanner').style.display='none';
+  final_result={}; allSubjHeaders=new Set(); allGroups=new Set();
+  document.getElementById('groupFilterSection').style.display='none';
+  filterGroup='All';
+  document.getElementById('groupFilter').innerHTML='<option value="All">All Groups</option>';
+  document.getElementById('topperBody').innerHTML='';
+  document.getElementById('metaPillsEl').innerHTML='';
+  document.getElementById('streamTagEl').textContent='';
+  sortCol='rollno'; sortDir='asc';
+  loadSettings();
+}
+
+function showLoading(show) {
+  document.getElementById('loadingBox').style.display = show ? 'flex' : 'none';
+  const submitBtn = document.querySelector('#rollForm button[type="submit"]') || document.getElementById('fetchStudentBtn');
+  if (submitBtn) submitBtn.disabled = show;
+}
+
+function showError(msg) {
+  const b = document.getElementById('errorBox');
+  b.textContent = msg; b.style.display = 'block';
+}
+
+function updateMeta() {
+  const students = getFilteredStudents();
+  const total = students.length;
+  const passed = students.filter(s => {
+    const r=(s.RESULT||'').trim().toLowerCase();
+    return r!=='fail'&&r!=='absent'&&r!=='n.s.o.';
+  }).length;
+  const pct = total>0?((passed/total)*100).toFixed(1):'0';
+  document.getElementById('metaPillsEl').innerHTML = `
+    <span class="meta-pill"><i class="fas fa-users"></i>${total} Students</span>
+    <span class="meta-pill"><i class="fas fa-check-circle"></i>${passed} Passed</span>
+    <span class="meta-pill"><i class="fas fa-percent"></i>${pct}% Pass Rate</span>
+  `;
+}
+
+function addStudent(data) {
+  const rn = data.ROLL_NO;
+  if (!final_result[rn]) {
+    final_result[rn] = data;
+    for (let i=1;i<=13;i++) {
+      if (data[`SC${i}`]&&data[`SC${i}`].trim()!=='')
+        allSubjHeaders.add(`${data[`SC${i}`].trim()}_TOT${i}`);
+    }
+    if (data.GROUP&&data.GROUP.trim()!=='') allGroups.add(data.GROUP.trim());
+  }
+}
+
+function getFilteredStudents() {
+  let students = Object.values(final_result);
+  // Apply stream filter for 12th
+  if (currentStream !== 'all' && document.getElementById('classSel').value === '12') {
+    const streamGroupMap = {
+      arts:     ['Arts','art','ARTS','A','कला','Kala','arts'],
+      science:  ['Science','SCIENCE','Sci','S','विज्ञान','science'],
+      commerce: ['Commerce','COMMERCE','Com','C','वाणिज्य','Vanijya','commerce']
+    };
+    students = students.filter(s => {
+      const g = (s.GROUP||'').trim().toLowerCase();
+      if (currentStream === 'arts')     return g.includes('art') || g==='a' || g.includes('kala');
+      if (currentStream === 'science')  return g.includes('sci') || g==='s' || g.includes('vij');
+      if (currentStream === 'commerce') return g.includes('com') || g==='c' || g.includes('van');
+      return true;
+    });
+  }
+  if (filterGroup !== 'All') students = students.filter(s=>(s.GROUP||'').trim()===filterGroup);
+  return students;
+}
+
+function populateGroups() {
+  document.getElementById('groupFilter').innerHTML='<option value="All">All Groups</option>';
+  Array.from(allGroups).sort().forEach(g=>{
+    const o=document.createElement('option'); o.value=g; o.textContent=g;
+    document.getElementById('groupFilter').appendChild(o);
+  });
+  document.getElementById('groupFilterSection').style.display = allGroups.size>0?'block':'none';
+  if (allGroups.size>0) document.getElementById('groupFilter').value=filterGroup;
+  else filterGroup='All';
+}
+
+// ── SUBJECT HEADERS ──
+function getSortedSubjHeaders(studentsArr) {
+  let headers = Array.from(allSubjHeaders);
+  if (document.getElementById('hideEmptyCols').checked) {
+    headers = headers.filter(hk=>{
+      const subj=hk.split('_')[0];
+      return studentsArr.some(s=>{
+        for(let i=1;i<=13;i++) if(s[`SC${i}`]?.trim()===subj&&s[`TOT${i}`]?.trim()!=='') return true;
+        return false;
+      });
+    });
+  }
+  return headers.sort((a,b)=>{
+    let ia=-1,ib=-1;
+    for(const rn in final_result){
+      const st=final_result[rn];
+      for(let i=1;i<=13;i++){
+        if(`${st[`SC${i}`]?.trim()}_TOT${i}`===a) ia=i;
+        if(`${st[`SC${i}`]?.trim()}_TOT${i}`===b) ib=i;
+      }
+      if(ia!==-1&&ib!==-1) break;
+    }
+    return ia-ib;
+  });
+}
+
+// ── RESULT BADGE ──
+function resBadge(result) {
+  const r=(result||'').trim().toLowerCase().replace(/ by grace/gi,'').trim();
+  const map={'first division':'rb-1st','second division':'rb-2nd','third division':'rb-3rd','pass':'rb-pass','suppl':'rb-supp','fail':'rb-fail','absent':'rb-abs'};
+  let cls='';
+  for(const k in map) if(r.includes(k)){cls=map[k];break;}
+  const disp=(result||'N/A').trim();
+  return cls?`<span class="rb ${cls}">${disp}</span>`:disp;
+}
+
+// ── RENDER TABLE ──
+function renderTable() {
+  document.getElementById('tableBody').innerHTML='';
+  const students = getFilteredStudents();
+  const sortedH = getSortedSubjHeaders(students);
+  updateHeaders(sortedH);
+  
+  students.sort((a,b)=>{
+    let va,vb;
+    if(['srno','rollno'].includes(sortCol)){va=parseInt(a.ROLL_NO,10)||0;vb=parseInt(b.ROLL_NO,10)||0;}
+    else if(sortCol==='name'){va=(a.CAN_NAME||'').toLowerCase();vb=(b.CAN_NAME||'').toLowerCase();}
+    else if(sortCol==='fname'){va=(a.FNAME||'').toLowerCase();vb=(b.FNAME||'').toLowerCase();}
+    else if(sortCol==='mname'){va=(a.MNAME||'').toLowerCase();vb=(b.MNAME||'').toLowerCase();}
+    else if(sortCol==='group'){va=(a.GROUP||'').toLowerCase();vb=(b.GROUP||'').toLowerCase();}
+    else if(sortCol==='totalMarks'){va=parseInt(a.TOT_MARKS,10)||0;vb=parseInt(b.TOT_MARKS,10)||0;}
+    else if(sortCol==='percentage'){va=parseFloat(a.PER)||0;vb=parseFloat(b.PER)||0;}
+    else if(sortCol==='result'){va=(a.RESULT||'').toLowerCase();vb=(b.RESULT||'').toLowerCase();}
+    else if(sortedH.some(h=>sortCol===h.split('_')[0])){
+      for(let i=1;i<=13;i++){
+        if(a[`SC${i}`]?.trim()===sortCol) va=parseInt(a[`TOT${i}`]?.replace(/[^\d.-]/g,''),10)||0;
+        if(b[`SC${i}`]?.trim()===sortCol) vb=parseInt(b[`TOT${i}`]?.replace(/[^\d.-]/g,''),10)||0;
+      }
+    }
+    if(typeof va==='string') return sortDir==='asc'?va.localeCompare(vb):vb.localeCompare(va);
+    return sortDir==='asc'?va-vb:vb-va;
+  });
+
+  const incP=document.getElementById('incPersonal').checked;
+  const showM=document.getElementById('showMother').checked;
+  const tbody=document.getElementById('tableBody');
+
+  students.forEach((sd,idx)=>{
+    const row=tbody.insertRow();
+    row.insertCell().textContent=idx+1;
+    const rc=row.insertCell();
+    rc.innerHTML=`<span class="roll-link">${sd.ROLL_NO||'N/A'}</span>`;
+    rc.querySelector('.roll-link').addEventListener('click',()=>showMarksheet(sd));
+    if(incP){
+      row.insertCell().textContent=sd.CAN_NAME||'N/A';
+      row.insertCell().textContent=sd.FNAME||'N/A';
+      if(showM) row.insertCell().textContent=sd.MNAME||'N/A';
+    }
+    sortedH.forEach(hk=>{
+      const parts=hk.split('_TOT'); const subj=parts[0]; const i=parts[1];
+      let v='';
+      for(let j=1;j<=13;j++){
+        if(sd[`SC${j}`]?.trim()===subj&&j===parseInt(i)){
+          v=sd[`TOT${j}`]?.trim()||sd[`SC${j}P1`]?.trim()||''; break;
+        }
+      }
+      row.insertCell().textContent=v;
+    });
+    row.insertCell().textContent=sd.TOT_MARKS?.trim()||'N/A';
+    row.insertCell().textContent=sd.PER!==null?parseFloat(sd.PER):'N/A';
+    const rc2=row.insertCell(); rc2.innerHTML=resBadge(sd.RESULT);
+  });
+
+  document.getElementById('resultsCount').innerHTML=`Showing <strong>${students.length}</strong> students`;
+  setupSort();
+}
+
+function updateHeaders(sortedH) {
+  const tr=document.getElementById('tableHeadRow');
+  tr.innerHTML='';
+  const incP=document.getElementById('incPersonal').checked;
+  const showM=document.getElementById('showMother').checked;
+  const addTh=(key,text,hidden=false)=>{
+    const th=document.createElement('th');
+    th.dataset.col=key; th.textContent=text;
+    th.innerHTML+=` <i class="fas fa-sort si"></i>`;
+    if(hidden) th.style.display='none';
+    tr.appendChild(th);
+  };
+  addTh('srno','S.No.'); addTh('rollno','Roll No.');
+  if(incP){
+    addTh('name','Name'); addTh('fname',"Father's Name");
+    if(showM) addTh('mname',"Mother's Name");
+  }
+  addTh('group','Group',true);
+  sortedH.forEach(hk=>{ const subj=hk.split('_')[0]; addTh(subj,subj); });
+  addTh('totalMarks','Total'); addTh('percentage','%'); addTh('result','Result');
+  
+  document.querySelectorAll('.data-table thead th').forEach(th=>{
+    th.classList.remove('sa','sd');
+    const ic=th.querySelector('.si');
+    if(!ic) return;
+    ic.classList.remove('fa-sort-up','fa-sort-down','fa-sort');
+    if(th.dataset.col===sortCol){
+      th.classList.add(sortDir==='asc'?'sa':'sd');
+      ic.classList.add(sortDir==='asc'?'fa-sort-up':'fa-sort-down');
+      ic.style.opacity='1';
+    } else { ic.classList.add('fa-sort'); ic.style.opacity='0.4'; }
+  });
+  setupSort();
+}
+
+function setupSort() {
+  document.querySelectorAll('.data-table thead th[data-col]').forEach(h=>{
+    h.removeEventListener('click',hdrClick);
+    h.addEventListener('click',hdrClick);
+  });
+}
+function hdrClick() {
+  const col=this.dataset.col; if(!col) return;
+  sortDir=(sortCol===col&&sortDir==='asc')?'desc':'asc';
+  sortCol=col; renderTable();
+}
+
+// ── SUMMARY ──
+function genSummary() {
+  const rc={}; let total=0;
+  const students=getFilteredStudents();
+  students.forEach(s=>{
+    const r=(s.RESULT||'N/A').trim().replace(/ By Grace/gi,'').trim();
+    rc[r]=(rc[r]||0)+1; total++;
+  });
+  document.getElementById('sumHead').innerHTML=''; document.getElementById('sumBody').innerHTML='';
+  const order=['FIRST DIVISION','SECOND DIVISION','THIRD DIVISION','PASS','TH<40%','SUPPL','FAIL','ABSENT','N/A'];
+  const cats=Object.keys(rc).sort((a,b)=>{
+    const ia=order.indexOf(a.toUpperCase()),ib=order.indexOf(b.toUpperCase());
+    if(ia===-1&&ib===-1) return a.localeCompare(b);
+    if(ia===-1) return 1; if(ib===-1) return -1; return ia-ib;
+  });
+  const SHORT={'FIRST DIVISION':'1st Div','SECOND DIVISION':'2nd Div','THIRD DIVISION':'3rd Div','PASS':'Pass','TH<40%':'TH<40%','SUPPL':'Supp.','FAIL':'Fail','ABSENT':'Absent','N/A':'N/A','FIRST DIVISION BY GRACE':'1st (Grace)','SECOND DIVISION BY GRACE':'2nd (Grace)','THIRD DIVISION BY GRACE':'3rd (Grace)','PASS BY GRACE':'Pass (Grace)'};
+  const hr=document.getElementById('sumHead').insertRow();
+  const th0=document.createElement('th'); th0.textContent='Total'; hr.appendChild(th0);
+  cats.forEach(c=>{const th=document.createElement('th');th.textContent=SHORT[c.toUpperCase()]||c;hr.appendChild(th);});
+  const dr=document.getElementById('sumBody').insertRow();
+  dr.insertCell().textContent=total;
+  cats.forEach(c=>dr.insertCell().textContent=rc[c]);
+  document.getElementById('summaryCard').style.display='block';
+}
+
+function genSubjSummary() {
+  document.getElementById('subjHead').innerHTML=''; document.getElementById('subjBody').innerHTML='';
+  const students=getFilteredStudents();
+  const visH=getSortedSubjHeaders(students);
+  if(!visH.length){document.getElementById('subjCard').style.display='none';return;}
+  const stats={};
+  visH.forEach(hk=>{stats[hk.split('_')[0]]={total:0,pass:0,d1:0,d2:0,d3:0,th40:0,dist:0,supp:0,fail:0,abs:0};});
+  students.forEach(sd=>{
+    for(let i=1;i<=13;i++){
+      const subj=sd[`SC${i}`]?.trim();
+      const tot=sd[`TOT${i}`]?.trim()||sd[`SC${i}P1`]?.trim();
+      if(!subj||!visH.includes(`${subj}_TOT${i}`)) continue;
+      const st=stats[subj]; if(!st) continue;
+      st.total++;
+      const marks=parseInt(tot?.replace(/[^\d.-]/g,''),10);
+      const result=sd.RESULT?.trim().toLowerCase();
+      if(tot&&tot.toUpperCase()==='AAF'){st.abs++;continue;}
+      if(tot&&tot.includes('S')) st.supp++;
+      if(tot&&tot.includes('F')) st.fail++;
+      const isPass=(tot&&tot.length===1&&['A','B','C','D','E'].includes(tot)&&tot!=='F')||
+        (!isNaN(marks)&&(marks>=PASS_MARK||(tot&&tot.includes('G')))&&!(tot&&tot.includes('S'))&&!(tot&&tot.includes('F'))&&!['fail','n.s.o.','absent'].includes(result));
+      if(isPass){
+        st.pass++;
+        if(marks>=DIST_MARK) st.dist++;
+        if(marks>=60||tot==='A') st.d1++;
+        else if(marks>=45||tot==='B') st.d2++;
+        else if(marks>=PASS_MARK||['C','D','E'].includes(tot)) st.d3++;
+        const th=parseInt(sd[`SC${i}P1`],10),pr=parseInt(sd[`SC${i}TT`],10);
+        if(!isNaN(th)&&th<(pr>0?22.4:32)) st.th40++;
+      }
+    }
+  });
+  const filtered=Object.keys(stats).filter(sn=>Object.values(stats[sn]).some(v=>v>0));
+  if(!filtered.length){document.getElementById('subjCard').style.display='none';return;}
+  const hr=document.getElementById('subjHead').insertRow();
+  ['Subject','Total','1st','2nd','3rd','TH<40%','Dist.','Supp.','Fail','Absent','Pass %'].forEach(h=>{
+    const th=document.createElement('th');th.textContent=h;hr.appendChild(th);
+  });
+  filtered.forEach(sn=>{
+    const s=stats[sn];
+    const pp=s.total>0?((s.pass/s.total)*100).toFixed(2)+'%':'0%';
+    const row=document.getElementById('subjBody').insertRow();
+    [sn,s.total,s.d1,s.d2,s.d3,s.th40,s.dist,s.supp,s.fail,s.abs,pp].forEach((v,i)=>{
+      const td=row.insertCell();td.textContent=v;
+      if(i===0) td.style.textAlign='left';
+    });
+  });
+  document.getElementById('subjCard').style.display='block';
+}
+
+function genToppers() {
+  document.getElementById('topperBody').innerHTML='';
+  const students=getFilteredStudents();
+  const elig=students.filter(s=>s.PER!==null&&!isNaN(parseFloat(s.PER))&&!['fail','absent'].includes(s.RESULT?.trim().toLowerCase()));
+  elig.sort((a,b)=>parseFloat(b.PER)-parseFloat(a.PER));
+  const top=elig.slice(0,3);
+  if(!top.length){document.getElementById('topperCard').style.display='none';return;}
+  top.forEach((sd,i)=>{
+    const row=document.getElementById('topperBody').insertRow();
+    row.className=`topper-rank-${i+1}`;
+    [i+1,sd.ROLL_NO||'N/A',sd.CAN_NAME||'N/A',sd.FNAME||'N/A',sd.TOT_MARKS||'N/A',
+     sd.PER!==null?`${parseFloat(sd.PER).toFixed(2)}%`:'N/A'].forEach(v=>row.insertCell().textContent=v);
+  });
+  document.getElementById('topperCard').style.display='block';
+}
+
+// ── MARKSHEET ──
+function showMarksheet(d) {
+  currentStudentData = d;
+  const school=(d.CENT_NAME||'').trim();
+  const name=(d.CAN_NAME||'N/A').trim();
+  const fname=(d.FNAME||'N/A').trim();
+  const mname=(d.MNAME||'').trim();
+  const rollNo=(d.ROLL_NO||'N/A');
+  const group=(d.GROUP||'').trim();
+  const totMarks=(d.TOT_MARKS||'N/A').trim();
+  const per=d.PER!==null&&d.PER!==undefined?parseFloat(d.PER).toFixed(2)+'%':'N/A';
+  const result=(d.RESULT||'N/A').trim();
+  
+  const subjects=[];
+  for(let i=1;i<=13;i++){
+    const subj=d[`SC${i}`]?.trim();
+    if(!subj) continue;
+    const tot=d[`TOT${i}`]?.trim()||d[`SC${i}P1`]?.trim()||'—';
+    const th=d[`SC${i}P1`]?.trim()||'';
+    const sm=d[`SC${i}P3`]?.trim()||'';
+    const pr=d[`SC${i}PT`]?.trim()||'';
+    subjects.push({subj,tot,th,sm,pr});
+  }
+  const hasSM=subjects.some(s=>s.sm!=='');
+  const hasPR=subjects.some(s=>s.pr!=='');
+  const subjRows=subjects.map((s,idx)=>`
+    <tr>
+      <td>${idx+1}. ${s.subj}</td>
+      <td>${s.th||'—'}</td>
+      ${hasSM?`<td>${s.sm||'—'}</td>`:''}
+      ${hasPR?`<td>${s.pr||'—'}</td>`:''}
+      <td><strong>${s.tot}</strong></td>
+    </tr>`).join('');
+
+  const rLow=result.toLowerCase().replace(/ by grace/gi,'').trim();
+  const rMap={'first division':'#166534','second division':'#1E40AF','third division':'#92400E','pass':'#581C87','suppl':'#C2410C','fail':'#991B1B','absent':'#44403C'};
+  let rColor='#0A1628';
+  for(const k in rMap) if(rLow.includes(k)){rColor=rMap[k];break;}
+
+  document.getElementById('msCard').innerHTML=`
+    <div class="ms-head">
+      <div class="ms-board">Rajasthan Board of Secondary Education — ${selYear||d.YEAR||''}</div>
+      <div class="ms-school">${school||'Board Result'}</div>
+      <div class="ms-class">${selClassText||''}${group?' &nbsp;|&nbsp; Group: '+group:''}</div>
+      <button class="ms-close-btn" id="msCloseInner"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="ms-body">
+      <div class="ms-info-grid">
+        <span class="ms-lbl">Name</span><span class="ms-val">${name}</span>
+        <span class="ms-lbl">Roll No.</span><span class="ms-val">${rollNo}</span>
+        <span class="ms-lbl">Father Name</span><span class="ms-val">${fname}</span>
+        ${mname?`<span class="ms-lbl">Mother Name</span><span class="ms-val">${mname}</span>`:'<span></span><span></span>'}
+      </div>
+      <table class="ms-table">
+        <thead><tr>
+          <th>Subject</th>
+          <th>Theory</th>
+          ${hasSM?'<th>Sessional</th>':''}
+          ${hasPR?'<th>Practical</th>':''}
+          <th>Total</th>
+        </tr></thead>
+        <tbody>${subjRows}</tbody>
+        <tfoot>
+          <tr>
+            <td colspan="${2+(hasSM?1:0)+(hasPR?1:0)}">Total Marks</td>
+            <td>${totMarks}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="ms-stat-bar">
+        <div class="ms-stat">
+          <div class="ms-stat-val">${totMarks}</div>
+          <div class="ms-stat-lbl">Total</div>
+        </div>
+        <div class="ms-divider"></div>
+        <div class="ms-stat">
+          <div class="ms-stat-val">${per}</div>
+          <div class="ms-stat-lbl">Percentage</div>
+        </div>
+        <div class="ms-divider"></div>
+        <div class="ms-stat">
+          <div class="ms-stat-val" style="color:${rColor};font-size:0.95rem;">${result}</div>
+          <div class="ms-stat-lbl">Result</div>
+        </div>
+      </div>
+    </div>
+    <div class="ms-footer">ShikshaVibhag &nbsp;|&nbsp; RBSE Rajasthan Board Result</div>
+  `;
+
+  document.getElementById('msOverlay').classList.add('open');
+  document.getElementById('msCloseInner').addEventListener('click',()=>document.getElementById('msOverlay').classList.remove('open'));
+  document.getElementById('msCloseBtnOuter').addEventListener('click',()=>document.getElementById('msOverlay').classList.remove('open'));
+  document.getElementById('msOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('msOverlay')) document.getElementById('msOverlay').classList.remove('open');});
+  
+  const dlBtn=document.getElementById('msDlBtn');
+  dlBtn.onclick=async()=>{
+    dlBtn.disabled=true; dlBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Ban raha hai…';
+    const clone=document.getElementById('msCard').cloneNode(true);
+    const cb=clone.querySelector('.ms-close-btn'); if(cb) cb.remove();
+    clone.style.cssText='position:fixed;top:-99999px;left:-99999px;width:fit-content;min-width:0;max-width:none;max-height:none;overflow:visible;border-radius:8px;box-shadow:none;background:#fff;font-size:12px;';
+    document.body.appendChild(clone);
+    await new Promise(r=>setTimeout(r,80));
+    try {
+      const canvas=await html2canvas(clone,{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',width:clone.scrollWidth,height:clone.scrollHeight,windowWidth:clone.scrollWidth,windowHeight:clone.scrollHeight,scrollX:0,scrollY:0});
+      const link=document.createElement('a');
+      const rn=(d.ROLL_NO||'result').toString().trim();
+      const sn=(d.CAN_NAME||'').trim().replace(/\s+/g,'_');
+      link.download=`${rn}${sn?'_'+sn:''}_${selClassText}_${selYear||''}_Result.jpg`;
+      link.href=canvas.toDataURL('image/jpeg',0.9);
+      link.click();
+    } catch(e){alert('Image generate nahi ho saka: '+e.message);}
+    finally { document.body.removeChild(clone); dlBtn.disabled=false; dlBtn.innerHTML='<i class="fas fa-image"></i> Download'; }
+  };
+}
+
+// ── PREV SEARCHES ──
+function savePrev(school,year,cls,roll) {
+  let list=JSON.parse(localStorage.getItem(PREV_KEY))||[];
+  const id=`${school}-${year}-${cls}-${roll}`;
+  if(!list.find(s=>`${s.school}-${s.year}-${s.cls}-${s.roll}`===id)){
+    list.unshift({school,year,cls,roll});
+    localStorage.setItem(PREV_KEY,JSON.stringify(list));
+  }
+}
+function renderPrev() {
+  const tbody=document.getElementById('prevBody');
+  tbody.innerHTML='';
+  const list=JSON.parse(localStorage.getItem(PREV_KEY))||[];
+  if(!list.length){document.getElementById('prevSection').style.display='none';return;}
+  list.forEach(s=>{
+    const row=tbody.insertRow();
+    row.insertCell().textContent=s.school;
+    row.insertCell().textContent=s.cls;
+    row.insertCell().textContent=s.year;
+    const btn=document.createElement('button');
+    btn.textContent='Dekhein'; btn.className='btn-recheck';
+    btn.addEventListener('click',()=>{
+      document.getElementById('boardSel').value='rj';
+      document.getElementById('yearSel').value=s.year;
+      document.getElementById('classSel').value=(s.cls||'').replace('th','');
+      handleClassChange();
+      document.getElementById('rollInput').value=s.roll;
+      doFetchResult();
+    });
+    row.insertCell().appendChild(btn);
+  });
+  document.getElementById('prevSection').style.display='block';
+}
+
+// ── PDF ──
+function getExportData() {
+  const students=getFilteredStudents();
+  const sortedH=getSortedSubjHeaders(students);
+  const incP=document.getElementById('incPersonal').checked;
+  const showM=document.getElementById('showMother').checked;
+  const headers=['S.No.','Roll No.'];
+  if(incP){headers.push('Name',"Father's Name");if(showM)headers.push("Mother's Name");}
+  sortedH.forEach(hk=>headers.push(hk.split('_')[0]));
+  headers.push('Total Marks','Percentage','Result');
+  students.sort((a,b)=>parseInt(a.ROLL_NO,10)-parseInt(b.ROLL_NO,10));
+  const rows=students.map((sd,idx)=>{
+    const row=[idx+1,sd.ROLL_NO||''];
+    if(incP){row.push(sd.CAN_NAME||'',sd.FNAME||'');if(showM)row.push(sd.MNAME||'');}
+    sortedH.forEach(hk=>{
+      let m='';
+      for(let i=1;i<=13;i++) if(sd[`SC${i}`]?.trim()===hk.split('_')[0]){m=sd[`TOT${i}`]?.trim()||sd[`SC${i}P1`]?.trim()||'';break;}
+      row.push(m);
+    });
+    row.push(sd.TOT_MARKS?.trim()||'',sd.PER!==null?parseFloat(sd.PER):'',(sd.RESULT||'').trim());
+    return row;
+  });
+  return {headers,rows};
+}
+
+function generatePdf() {
+  try {
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+    const pW=pdf.internal.pageSize.getWidth(),pH=pdf.internal.pageSize.getHeight();
+    const ML=6,MR=6,MT=8,MB=10,cW=pW-ML-MR,HH=MT+14;
+    const NAVY=[10,22,40],RED=[232,82,26],GOLD=[245,166,35],WHITE=[255,255,255],CREAM=[255,249,240],GRAY=[120,120,120];
+    const grp=filterGroup!=='All'?` (${filterGroup})`:'';
+    const ttl=`${selClassText}${grp} Result of ${targetSchool}`;
+    const sub=`Year: ${selYear}   |   Class: ${selClassText}${grp}`;
+    const ftr='ShikshaVibhag | RBSE Rajasthan Board Result Portal';
+    function addHdr(){
+      pdf.setFillColor(...NAVY);pdf.rect(ML,MT,cW,13,'F');
+      pdf.setFillColor(...RED);pdf.rect(ML,MT+12,cW,1,'F');
+      pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(...WHITE);
+      pdf.text(ttl,pW/2,MT+5.5,{align:'center'});
+      pdf.setFont('helvetica','normal');pdf.setFontSize(6.5);pdf.setTextColor(...GOLD);
+      pdf.text(sub,pW/2,MT+10.5,{align:'center'});
+    }
+    function addFtr(){
+      const y=pH-MB+3;
+      pdf.setDrawColor(...GRAY);pdf.setLineWidth(0.2);pdf.line(ML,y-2,ML+cW,y-2);
+      pdf.setFont('helvetica','normal');pdf.setFontSize(6);pdf.setTextColor(...GRAY);
+      pdf.text(ftr,pW/2,y+1,{align:'center'});
+      pdf.text(`Page ${pdf.internal.getCurrentPageInfo().pageNumber}`,pW-MR,y+1,{align:'right'});
+    }
+    const {headers,rows}=getExportData();
+    const cS={};
+    headers.forEach((h,i)=>{
+      if(i===0) cS[i]={cellWidth:7};
+      else if(i===1) cS[i]={cellWidth:16};
+      else if(['Name',"Father's Name","Mother's Name"].includes(h)) cS[i]={cellWidth:24};
+      else if(['Total Marks','Percentage','Result'].includes(h)) cS[i]={cellWidth:14};
+      else cS[i]={cellWidth:'auto'};
+    });
+    pdf.autoTable({head:[headers],body:rows,startY:HH,margin:{top:HH,bottom:MB+4,left:ML,right:MR},tableWidth:cW,
+      styles:{fontSize:5.5,cellPadding:0.8,overflow:'linebreak',halign:'center',valign:'middle',font:'helvetica'},
+      headStyles:{fillColor:NAVY,textColor:WHITE,fontStyle:'bold',fontSize:5.5},
+      alternateRowStyles:{fillColor:CREAM},columnStyles:cS,
+      didDrawPage:()=>{addHdr();addFtr();}});
+    const fn=`ShikshaVibhag_${selClassText}${grp}_${targetSchool}_${selYear}.pdf`.replace(/[^a-zA-Z0-9 _\-()]/g,'').replace(/\s+/g,'_')+'.pdf';
+    pdf.save(fn);
+  } catch(e){console.error(e);alert('PDF generate nahi ho saka: '+e.message);}
+}
+
+function exportCSV() {
+  const {headers,rows}=getExportData();
+  const esc=v=>{const s=String(v);return s.includes(',')||s.includes('"')||s.includes('\n')?`"${s.replace(/"/g,'""')}"`:''+s;};
+  const csv=[headers.map(esc).join(','),...rows.map(r=>r.map(esc).join(','))].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const fn=`ShikshaVibhag_${targetSchool.replace(/[^a-zA-Z0-9]/g,'_')}_${selClassText}_${selYear}.csv`;
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),100);
+}
+
+function exportExcel() {
+  const wb=XLSX.utils.book_new();
+  const grp=filterGroup!=='All'?` (${filterGroup})`:'';
+  const {headers,rows}=getExportData();
+  const ws1=XLSX.utils.aoa_to_sheet([headers,...rows]);
+  ws1['!cols']=headers.map((_,i)=>({wch:i===2||i===3?24:i===0?6:12}));
+  XLSX.utils.book_append_sheet(wb,ws1,'Results');
+  const fn=`ShikshaVibhag_${targetSchool.replace(/[^a-zA-Z0-9]/g,'_')}_${selClassText}_${selYear}.xlsx`;
+  XLSX.writeFile(wb,fn);
+}
+</script>
+</body>
+</html>
