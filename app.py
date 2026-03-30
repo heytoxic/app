@@ -1,11 +1,19 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
 import re
 
 app = Flask(__name__)
-CORS(app) # Frontend block na ho isliye CORS zaruri hai
+CORS(app)
+
+session = requests.Session()
+retry = Retry(total=1, backoff_factor=0.2, status_forcelist=[500, 502, 503, 504])
+adapter = HTTPAdapter(max_retries=retry)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
 
 def parse_html_to_frontend_json(html_text, roll_no, stream_name, year):
     soup = BeautifulSoup(html_text, 'html.parser')
@@ -15,9 +23,7 @@ def parse_html_to_frontend_json(html_text, roll_no, stream_name, year):
         return re.sub(r'[:\s\u00a0]+', ' ', text).strip() if text else ""
 
     data = {
-        "ROLL_NO": str(roll_no),
-        "YEAR": str(year),
-        "GROUP": stream_name.upper()
+        "ROLL_NO": str(roll_no), "YEAR": str(year), "GROUP": stream_name.upper()
     }
 
     try:
@@ -26,10 +32,7 @@ def parse_html_to_frontend_json(html_text, roll_no, stream_name, year):
         data["MNAME"] = clean(soup.find(string=re.compile("Mother's Name")).find_next('td').get_text())
         
         school_elem = soup.find(string=re.compile("School"))
-        if school_elem:
-            data["CENT_NAME"] = clean(school_elem.find_next('td').get_text())
-        else:
-            data["CENT_NAME"] = "Rajasthan Board Result"
+        data["CENT_NAME"] = clean(school_elem.find_next('td').get_text()) if school_elem else "Rajasthan Board Result"
     except:
         return {}
 
@@ -42,11 +45,9 @@ def parse_html_to_frontend_json(html_text, roll_no, stream_name, year):
             if th_val.isdigit() or th_val == "A":
                 data[f"SC{idx}"] = clean(cols[0].get_text())
                 data[f"SC{idx}P1"] = th_val
-                
                 sessional = clean(cols[2].get_text())
                 total = clean(cols[-1].get_text())
                 
-                # Practical subjects handling
                 if len(cols) == 5:
                     data[f"SC{idx}P3"] = sessional
                     data[f"SC{idx}PT"] = clean(cols[3].get_text())
@@ -55,8 +56,7 @@ def parse_html_to_frontend_json(html_text, roll_no, stream_name, year):
                 
                 data[f"TOT{idx}"] = total
                 idx += 1
-                if idx > 13: 
-                    break
+                if idx > 13: break
 
     tm_match = re.search(r"Total\s*marks\s*obtain\s*(\d+)", full_text, re.IGNORECASE)
     pc_match = re.search(r"(\d+\.\d+\s*%)", full_text)
@@ -68,7 +68,7 @@ def parse_html_to_frontend_json(html_text, roll_no, stream_name, year):
 
     return data
 
-def scrape_rbse(roll_no, prefix, stream_name, year):
+def scrape_official_rbse(roll_no, prefix, stream_name, year):
     url = f"https://rajeduboard.rajasthan.gov.in/RESULT2026/{prefix}/Roll_Output.asp"
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -77,65 +77,53 @@ def scrape_rbse(roll_no, prefix, stream_name, year):
     payload = {'roll_no': roll_no, 'B1': 'Submit'}
     
     try:
-        response = requests.post(url, data=payload, headers=headers, timeout=10)
+        response = session.post(url, data=payload, headers=headers, timeout=10)
         response.encoding = response.apparent_encoding
         return parse_html_to_frontend_json(response.text, roll_no, stream_name, year)
-    except Exception as e:
+    except Exception:
         return {}
-
 
 @app.route('/api/result', methods=['POST'])
 def fetch_result():
     req_data = request.json or {}
     roll_no = str(req_data.get('roll_no', '')).strip()
     year = str(req_data.get('year', '2026'))
+    std = str(req_data.get('std', '12'))
     
-    # 1. FIX: Humesha class 12th hi manega
-    std = '12' 
-
     if not roll_no:
         return jsonify({"error": "Roll Number required"}), 400
 
-    # 2. DEMO FUNCTION (Roll Number: 1234567)
     if roll_no == "1234567":
-        demo_response = {
-            "ROLL_NO": "1234567",
-            "YEAR": year,
-            "GROUP": "SCIENCE",
-            "CAN_NAME": "DEMO STUDENT",
-            "FNAME": "DEMO FATHER",
-            "MNAME": "DEMO MOTHER",
+        return jsonify({
+            "ROLL_NO": "1234567", "YEAR": year, "GROUP": "SCIENCE",
+            "CAN_NAME": "DEMO STUDENT", "FNAME": "DEMO FATHER", "MNAME": "DEMO MOTHER",
             "CENT_NAME": "GOVT SR SEC SCHOOL, JAIPUR",
             "SC1": "HINDI", "SC1P1": "080", "SC1P3": "020", "TOT1": "100",
             "SC2": "ENGLISH", "SC2P1": "075", "SC2P3": "020", "TOT2": "095",
             "SC3": "PHYSICS", "SC3P1": "050", "SC3P3": "014", "SC3PT": "030", "TOT3": "094",
             "SC4": "CHEMISTRY", "SC4P1": "052", "SC4P3": "014", "SC4PT": "030", "TOT4": "096",
             "SC5": "MATHEMATICS", "SC5P1": "078", "SC5P3": "020", "TOT5": "098",
-            "TOT_MARKS": "483",
-            "PER": "96.60",
-            "RESULT": "FIRST DIVISION"
-        }
-        return jsonify(demo_response)
+            "TOT_MARKS": "483", "PER": "96.60", "RESULT": "FIRST DIVISION"
+        })
 
-    # 3. REAL LOGIC (For any other Roll Number)
-    # Automatically checks all 3 streams for 12th std
-    
-    # Pehle Science check karega
-    data = scrape_rbse(roll_no, 'SCI', 'SCIENCE', year)
-    if data.get("CAN_NAME"): return jsonify(data)
-    
-    # Fir Arts check karega
-    data = scrape_rbse(roll_no, 'ARTS', 'ARTS', year)
-    if data.get("CAN_NAME"): return jsonify(data)
-    
-    # Aakhiri me Commerce check karega
-    data = scrape_rbse(roll_no, 'COM', 'COMMERCE', year)
-    if data.get("CAN_NAME"): return jsonify(data)
+    if std == '10':
+        data = scrape_official_rbse(roll_no, 'SEV', '10TH', year)
+        if data and data.get("CAN_NAME"): return jsonify(data)
 
-    # Agar roll number kisi me nahi mila ya site down hai
-    return jsonify({"error": "Result not found or server busy"}), 404
+    elif std == '12':
+        streams_to_check = [
+            ("SCI", "SCIENCE"),
+            ("ARTS", "ARTS"),
+            ("COM", "COMMERCE")
+        ]
+        
+        for prefix, stream_name in streams_to_check:
+            data = scrape_official_rbse(roll_no, prefix, stream_name, year)
+            if data and data.get("CAN_NAME"): 
+                return jsonify(data)
 
+    return jsonify({"error": "Result not found or server is experiencing heavy traffic."}), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
+    app.run(host='0.0.0.0', port=5000, threaded=True)
+    
