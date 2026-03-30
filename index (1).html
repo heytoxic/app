@@ -935,32 +935,14 @@ footer {
         </div>
       </div>
 
-      <!-- Stream Selection for 12th -->
-      <div id="streamSection" style="margin-top:1rem;">
-        <label class="form-label">Stream</label>
-        <div class="stream-tabs">
-          <div class="stream-tab active" data-stream="all" onclick="selectStream(this)">
-            <i class="fas fa-th-large" style="margin-right:4px;"></i>All Streams 
-          </div>
-          <div class="stream-tab arts" data-stream="arts" onclick="selectStream(this)">
-            <i class="fas fa-palette" style="margin-right:4px;"></i>Arts
-          </div>
-          <div class="stream-tab science" data-stream="science" onclick="selectStream(this)">
-            <i class="fas fa-flask" style="margin-right:4px;"></i>Science
-          </div>
-          <div class="stream-tab commerce" data-stream="commerce" onclick="selectStream(this)">
-            <i class="fas fa-chart-line" style="margin-right:4px;"></i>Commerce
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-3">
+      <div class="mt-4">
         <button type="button" class="btn-fetch btn-student" id="fetchStudentBtn" style="width: 100%;">
           <i class="fas fa-user-graduate"></i> Check Result
-        </button>
+        </div>
       </div>
     </form>
-  </div>
+</div>
+  
   
 
   <!-- PREV RESULTS -->
@@ -1156,25 +1138,7 @@ function setClass(cls) {
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-function selectStream(el) {
-  document.querySelectorAll('.stream-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  currentStream = el.dataset.stream;
-  if (Object.keys(final_result).length > 0) {
-    filterGroup = 'All';
-    document.getElementById('groupFilter').value = 'All';
-    renderTable(); genSummary(); genSubjSummary(); genToppers(); applyStreamFilter();
-  }
-}
 
-function selectStreamByName(name) {
-  const tab = document.querySelector(`.stream-tab[data-stream="${name}"]`);
-  if (tab) { selectStream(tab); window.scrollTo({top: 0, behavior: 'smooth'}); }
-}
-
-function applyStreamFilter() {
-  // stream filter is applied in getFilteredStudents
-}
 
 // ── NAVIGATION ──
 function openDrawer()  { document.getElementById('appDrawer').classList.add('open'); document.getElementById('drawerOverlay').classList.add('open'); }
@@ -1243,34 +1207,63 @@ document.getElementById('groupFilter').addEventListener('change', e => {
 // ── FETCH RESULT ──
 async function doFetchResult() {
   const roll = parseInt(document.getElementById('rollInput').value, 10);
-  if (isNaN(roll)) { showError('Valid roll number enter karein.'); return; }
+  if (isNaN(roll)) { 
+    showError('Valid roll number enter karein.'); 
+    return; 
+  }
+  
   localStorage.setItem(LAST_ROLL, roll);
   selYear = document.getElementById('yearSel').value;
-  selClassText = document.getElementById('classSel').options[document.getElementById('classSel').selectedIndex].textContent.split(' ')[0] + 'th';
+  
+  // Class text nikalne ka logic (10th ya 12th)
+  const classDropdown = document.getElementById('classSel');
+  selClassText = classDropdown.options[classDropdown.selectedIndex].textContent.split(' ')[0] + 'th';
+  
   resetUI();
   document.getElementById('prevSection').style.display = 'none';
   showLoading(true);
   document.getElementById('loadingInfo').textContent = `Roll No. ${roll} ka result aa raha hai…`;
+
   try {
     const res = await fetch(API_RESULT, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ board: document.getElementById('boardSel').value, year: selYear, std: document.getElementById('classSel').value, roll_no: roll })
+      // Yahan se 'stream' hata diya gaya hai kyunki backend auto-detect karega
+      body: JSON.stringify({ 
+        board: document.getElementById('boardSel').value, 
+        year: selYear, 
+        std: document.getElementById('classSel').value, 
+        roll_no: roll 
+      })
     });
-    const text = await res.text();
-    let data;
-    try { data = JSON.parse(text); } catch(e) { throw new Error('Server se invalid response.'); }
+
+    // Seedha JSON parse karein text ki jagah
+    const data = await res.json();
     showLoading(false);
-    if (!data || !data.ROLL_NO) { showError('Is roll number ka result nahi mila.'); return; }
+
+    // Agar backend error bhejta hai (Result not found etc.)
+    if (data.error) { 
+      showError(data.error); 
+      return; 
+    }
+
+    // Agar data sahi hai toh marksheet dikhao
+    if (!data || !data.ROLL_NO) { 
+      showError('Is roll number ka result nahi mila.'); 
+      return; 
+    }
+    
     showMarksheet(data);
+    
   } catch(err) {
-    showError('Result fetch failed: ' + err.message);
+    showError('Server busy hai, thodi der baad koshish karein.');
     showLoading(false);
   }
 }
+
 document.getElementById('rollForm').addEventListener('submit', e => { e.preventDefault(); doFetchResult(); });
 document.getElementById('fetchStudentBtn').addEventListener('click', doFetchResult);
-
+  
 // ── STREAM FETCH ──
 
 // ── STATE ──
@@ -1335,25 +1328,15 @@ function addStudent(data) {
 
 function getFilteredStudents() {
   let students = Object.values(final_result);
-  // Apply stream filter for 12th
-  if (currentStream !== 'all' && document.getElementById('classSel').value === '12') {
-    const streamGroupMap = {
-      arts:     ['Arts','art','ARTS','A','कला','Kala','arts'],
-      science:  ['Science','SCIENCE','Sci','S','विज्ञान','science'],
-      commerce: ['Commerce','COMMERCE','Com','C','वाणिज्य','Vanijya','commerce']
-    };
-    students = students.filter(s => {
-      const g = (s.GROUP||'').trim().toLowerCase();
-      if (currentStream === 'arts')     return g.includes('art') || g==='a' || g.includes('kala');
-      if (currentStream === 'science')  return g.includes('sci') || g==='s' || g.includes('vij');
-      if (currentStream === 'commerce') return g.includes('com') || g==='c' || g.includes('van');
-      return true;
-    });
+  
+  // Sirf Group filter rakhein (jo dropdown se handle hota hai)
+  if (filterGroup !== 'All') {
+    students = students.filter(s => (s.GROUP || '').trim() === filterGroup);
   }
-  if (filterGroup !== 'All') students = students.filter(s=>(s.GROUP||'').trim()===filterGroup);
+  
   return students;
 }
-
+  
 function populateGroups() {
   document.getElementById('groupFilter').innerHTML='<option value="All">All Groups</option>';
   Array.from(allGroups).sort().forEach(g=>{
