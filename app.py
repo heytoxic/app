@@ -88,7 +88,6 @@ def fetch_result():
     req_data = request.json or {}
     roll_no = str(req_data.get('roll_no', '')).strip()
     year = str(req_data.get('year', '2026'))
-    std = str(req_data.get('std', '12'))
     
     if not roll_no:
         return jsonify({"error": "Roll Number required"}), 400
@@ -106,21 +105,16 @@ def fetch_result():
             "TOT_MARKS": "483", "PER": "96.60", "RESULT": "FIRST DIVISION"
         })
 
-    if std == '10':
-        data = scrape_official_rbse(roll_no, 'SEV', '10TH', year)
-        if data and data.get("CAN_NAME"): return jsonify(data)
-
-    elif std == '12':
-        streams_to_check = [
-            ("SCI", "SCIENCE"),
-            ("ARTS", "ARTS"),
-            ("COM", "COMMERCE")
-        ]
-        
-        for prefix, stream_name in streams_to_check:
-            data = scrape_official_rbse(roll_no, prefix, stream_name, year)
-            if data and data.get("CAN_NAME"): 
-                return jsonify(data)
+    streams_to_check = [
+        ("SCI", "SCIENCE"),
+        ("ARTS", "ARTS"),
+        ("COM", "COMMERCE")
+    ]
+    
+    for prefix, stream_name in streams_to_check:
+        data = scrape_official_rbse(roll_no, prefix, stream_name, year)
+        if data and data.get("CAN_NAME"): 
+            return jsonify(data)
 
     return jsonify({"error": "Result not found or server is experiencing heavy traffic."}), 404
 
